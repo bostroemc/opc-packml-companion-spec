@@ -611,7 +611,7 @@ process to develop a standard interface to facilitate the development of
 applications by multiple vendors that shall inter-operate seamlessly
 together.
 
-Copyright © 2006-2020, OPC Foundation, Inc.
+Copyright © 2006-2026, OPC Foundation, Inc.
 
 [AGREEMENT OF USE]{.underline}
 
