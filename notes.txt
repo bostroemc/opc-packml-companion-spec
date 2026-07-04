@@ -34,3 +34,27 @@ To create and immediately switch to new branch:
 To push changes in branch to remote (Github) repo:
   git push -u origin your-branch-name
  
+
+
+GIT hints:
+
+To create and immediately switch to new branch:
+  git switch -c feature-branch
+
+To push changes in branch to remote (Github) repo:
+  git push -u origin feature-branch
+
+
+To stage all changes to current branch:
+  git add .
+
+ To commit changes to current branch:
+   git commit -m "description" 
+
+
+After PR merge issue following to update local repo:
+
+  git checkout main
+  git pull
+  git fetch --prune
+  git branch -d feature-branch
