@@ -23,4 +23,14 @@ format:
 ---
 
 With tooling properly configured, the following command will generated docuGenerate docx
-	quarto render document.md   
+	quarto render document.md  
+
+
+GIT hints:
+
+To create and immediately switch to new branch:
+  git switch -c your-branch-name
+
+To push changes in branch to remote (Github) repo:
+  git push -u origin your-branch-name
+ 
