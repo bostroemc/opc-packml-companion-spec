@@ -235,7 +235,7 @@ Page
 
 **6.7.8** Reset Method [52](#reset-method)
 
-**6.7.9** ToComplete Method [52](#tocomplete-method)
+**6.7.9** Complete Method [52](#complete-method)
 
 **6.7.10** Start Method [53](#start-method)
 
@@ -499,10 +499,10 @@ Tables
 [Table 39 -- Reset Method AddressSpace Definition
 [52](#_Ref498493579)](#_Ref498493579)
 
-[Table 40 - ToComplete Method result codes
+[Table 40 - Complete Method result codes
 [52](#_Ref498493604)](#_Ref498493604)
 
-[Table 41 -- ToComplete Method AddressSpace Definition
+[Table 41 -- Complete Method AddressSpace Definition
 [53](#_Ref498493618)](#_Ref498493618)
 
 [Table 42 - Start Method Parameters
@@ -1429,7 +1429,7 @@ possible by eliminating naming and id conflicts between information from
 different sources. Namespaces in OPC UA have a globally unique string
 called a *NamespaceUri* and a locally unique integer called a
 *NamespaceIndex*. The *NamespaceIndex* is only unique within the context
-of a *Session* between an OPC UA *Client* and an OPC UA *Server*. All of
+of a *Session* between an OPC UA *Client* and an OPC UA *Server*. All of?
 the web services defined for OPC UA use the *NamespaceIndex* to specify
 the *Namespace* for qualified values.
 
@@ -2407,7 +2407,7 @@ the type system, thus they do not have a modelling rule.
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
 | HasComponent   | Object        | Completing              |                | StateType            |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
-| HasComponent   | Object        | Complete                |                | StateType            |              |
+| HasComponent   | Object        | Completed               |                | StateType            |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
 |                |               |                         |                |                      |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
@@ -2435,9 +2435,9 @@ the type system, thus they do not have a modelling rule.
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
 | HasComponent   | Object        | ExecuteToCompleting     |                | TransitionType       |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
-| HasComponent   | Object        | CompletingToComplete    |                | TransitionType       |              |
+| HasComponent   | Object        | CompletingToCompleted   |                | TransitionType       |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
-| HasComponent   | Object        | CompleteToResetting     |                | TransitionType       |              |
+| HasComponent   | Object        | CompletedToResetting    |                | TransitionType       |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
 | HasComponent   | Object        | StartingToHolding       |                | TransitionType       |              |
 +----------------+---------------+-------------------------+----------------+----------------------+--------------+
@@ -2454,8 +2454,8 @@ the type system, thus they do not have a modelling rule.
 | HasComponent   | Method        | Reset                   | Defined in Clause                     | Optional     |
 |                |               |                         | [6.7.8](#reset-method)                |              |
 +----------------+---------------+-------------------------+---------------------------------------+--------------+
-| HasComponent   | Method        | ToComplete              | Defined in Clause                     | Optional     |
-|                |               |                         | [6.7.9](#tocomplete-method)           |              |
+| HasComponent   | Method        | Complete                | Defined in Clause                     | Optional     |
+|                |               |                         | [6.7.9](#complete-method)             |              |
 +----------------+---------------+-------------------------+---------------------------------------+--------------+
 | HasComponent   | Method        | Start                   | Defined in Clause                     | Optional     |
 |                |               |                         | [6.7.10](#start-method)               |              |
@@ -2487,7 +2487,7 @@ This *FiniteStateMachine* supports multiple *Active* states. It also
 supports 19 *Transitions* and a *Method* for transition between states.
 
 *Resetting*: In response to a *Reset* command, the unit/machine will
-transition to *Resetting* from either *Stopped* or *Complete*. In this
+transition to *Resetting* from either *Stopped* or *Completed*. In this
 state the unit/machine attempts to clear any standing errors or stop
 causes. If successful, the unit/machine transitions to *Idle*. No
 hazardous motion should happen in this state. The value of this
@@ -2565,9 +2565,9 @@ reached a defined threshold (e.g. the required number of products for
 the current job have been produced), the unit/machine transitions from
 *Execute* to *Completing*. In this state all steps necessary to shut
 down the current process are carried out. The machine then transitions
-automatically to *Complete* state. The value of this *StateType* is 16.
+automatically to *Completed* state. The value of this *StateType* is 16.
 
-*Complete*: *Complete* indicates the process associated with the active
+*Completed*: *Completed* indicates the process associated with the active
 mode has come to its defined end. The unit/machine will wait in this
 state until a *Reset* command is issued (in which case it will
 transition to *Resetting*), or until the unit/machine is *Stopped* or
@@ -2675,13 +2675,13 @@ Additional References
 
                             ToState       True          Completing
 
-                            HasCause      True          ToComplete
+                            HasCause      True          Complete
 
-  CompletingToComplete      FromState     True          Completing
+  CompletingToCompleted     FromState     True          Completing
 
-                            ToState       True          Complete
+                            ToState       True          Completed
 
-  CompleteToResetting       FromState     True          Complete
+  CompletedToResetting      FromState     True          Completed
 
                             ToState       True          Resetting
 
@@ -3597,15 +3597,15 @@ Definition
 |                |               |                |              |                    |                   |
 +----------------+---------------+----------------+--------------+--------------------+-------------------+
 
-### ToComplete Method
+### Complete Method
 
 This *Method* is used as part of the *PackMLExecuteStateMachineType*. It
 allows an OPC UA *Client* to change the state of this state machine to
-the *Complete* state.
+the *Completing* state.
 
 **Signature**
 
-> ToComplete(
+> Complete(
 >
 > );
 
@@ -3635,19 +3635,19 @@ the *Complete* state.
                        other invalid state.)
   -------------------- ---------------------------------------------
 
-  : []{#_Ref498493604 .anchor}Table 40 - ToComplete Method result codes
+  : []{#_Ref498493604 .anchor}Table 40 - Complete Method result codes
 
 [Table 41](#_Ref498493618) specifies the *AddressSpace* representation
-for the *ToComplete Method*. *Complete* has no input or output
+for the *Complete Method*. *Complete* has no input or output
 parameters and has no referenced objects or variables.
 
-[]{#_Ref498493618 .anchor}Table 41 -- ToComplete Method AddressSpace
+[]{#_Ref498493618 .anchor}Table 41 -- Complete Method AddressSpace
 Definition
 
 +----------------+---------------+----------------+--------------+--------------------+-------------------+
 | **Attribute**  | **Value**                                                                              |
 +----------------+----------------------------------------------------------------------------------------+
-| BrowseName     | ToComplete                                                                             |
+| BrowseName     | Complete                                                                               |
 +----------------+---------------+----------------+--------------+--------------------+-------------------+
 | **References** | **NodeClass** | **BrowseName** | **DataType** | **TypeDefinition** | **ModellingRule** |
 +----------------+---------------+----------------+--------------+--------------------+-------------------+
@@ -4756,7 +4756,7 @@ Facet
 
   PackML Model  PackML State Reset                         True
 
-  PackML Model  PackML State Complete                      True
+  PackML Model  PackML State Completed                     True
 
   PackML Model  PackML State Start                         True
 
@@ -4889,7 +4889,7 @@ object models that are part of this specification.
 
   PackML Model  PackML State Reset Client                  True
 
-  PackML Model  PackML State Complete Client               True
+  PackML Model  PackML State Completed Client              True
 
   PackML Model  PackML State Start Client                  True
 
@@ -5181,7 +5181,7 @@ Table B.1 -- Recommended display names for LocaleId "en"
 |                               +---------------+--------------+------------+
 |                               | Completing    | Completing   | 16         |
 |                               +---------------+--------------+------------+
-|                               | Complete      | Complete     | 17         |
+|                               | Completed     | Completed    | 17         |
 +-------------------------------+---------------+--------------+------------+
 
 ## LocaleId "de" {#localeid-de .ANNEX-heading2}
@@ -5233,7 +5233,7 @@ Table B.2\
 |                               +---------------+----------------+
 |                               | Completing    | Fertigstellen  |
 |                               +---------------+----------------+
-|                               | Complete      | Vollständig    |
+|                               | Completed     | Vollständig    |
 +-------------------------------+---------------+----------------+
 
 : Table B.2 - Recommended display names for LocaleId "de"
@@ -5285,7 +5285,7 @@ Table B.3 - Recommended display names for LocaleId "fr"
 |                               +---------------+------------------+
 |                               | Completing    | Achevé (ing)     |
 |                               +---------------+------------------+
-|                               | Complete      | Achevé           |
+|                               | Completed     | Achevé           |
 +-------------------------------+---------------+------------------+
 
 B.  []{#_Ref234035279 .anchor}: []{#_Ref491851222 .anchor}DataType
@@ -6031,3 +6031,43 @@ These are not explicit listed in the chapter.
 
   **Solution**         
   ---------------------------------------------------------------------
+
+# Main changes from V1.01 to V2.00
+
+------------------------------------------------------------------
+  **Topic**         Change naming of "Complete" Method
+  ----------------- ------------------------------------------------
+  **Errata          1.01
+  Version**         
+
+  **Spec            6.7.9
+  Reference**       
+
+  **Mantis          
+  Reference**       
+
+  **Problem         Align method naming
+  Statement**       
+
+  **Solution**      Change naming from "ToComplete" to "Complete"
+                    to align it with other method names
+  ------------------------------------------------------------------
+
+------------------------------------------------------------------
+  **Topic**         Change naming of "Completed" State
+  ----------------- ------------------------------------------------
+  **Errata          1.01
+  Version**         
+
+  **Spec            7.5.2.4
+  Reference**       
+
+  **Mantis          
+  Reference**       
+
+  **Problem         Align state naming with TR88.00.02-2022
+  Statement**       
+
+  **Solution**      Change naming from "Complete" to "Completed"
+  ------------------------------------------------------------------
+
