@@ -1770,8 +1770,6 @@ Figure 12 - PackMLStatusObjectType Overview
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 |               |               |                         |                                   |                      |                   |               |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
-| HasComponent  | Variable      | MaterialInterlocked     | Boolean                           | BaseDataVariableType | Optional          | R             |
-+---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 | HasInterlock  | Variable      | MaterialInterlock       | Boolean\[\]                       | BaseDataVariableType | Optional          | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 |               |               |                         |                                   |                      |                   |               |
@@ -1824,10 +1822,6 @@ buffer is full)
 
 *EquipmentInterlock.Starved* - If TRUE, then processing is suspended because
 upstream equipment is unable to send material.
-
-*MaterialInterlocked* -- a flag that indicates this machine is
-interlocked. It is a summary of the interlock variable that is
-associated with this machine.
 
 *MaterialInterlock* - this is an array and describes the status of the
 materials that are ready for processing. It is comprised of a series of
@@ -2794,20 +2788,19 @@ Table X(add link).
 
 Table X -- PackMLEquipmentInterlockDataType Structure
 
-  --------------------- --------------- -------------------------------------
-  **Name**              **Type**        **Description**
+  --------------------------------- --------------- -------------------------------------
+  **Name**                          **Type**        **Description**
 
-  PackMLEquipmentInterlockDataType   Structure       
+  PackMLEquipmentInterlockDataType  Structure       
 
-  Blocked               Boolean         TRUE indicates that the machine has 
-                                        detected a downstream blocked 
-                                        condition.
+  Blocked                           Boolean         TRUE indicates that the machine has 
+                                                    detected a downstream blocked 
+                                                    condition.
 
-  Starved               Boolean         TRUE indicates that the machine has
-                                        detected an upstream starved 
-                                        condtion.
-
-  --------------------- --------------- -------------------------------------
+  Starved                           Boolean         TRUE indicates that the machine has
+                                                    detected an upstream starved 
+                                                    condtion.
+  --------------------------------- --------------- -------------------------------------
 
 ### PackMLDescriptorDataType
 
@@ -2841,8 +2834,7 @@ The *PackMLIngredientsDataType* provides the PackML Parameter structure.
 The *PackMLIngredientsDataType* is formally defined in [Table
 15](#_Ref497952290).
 
-[]{#_Ref497952290 .anchor}Table 15 -- PackMLIngredientsDataType
-Structure
+[]{#_Ref497952290 .anchor}Table 15 -- PackMLIngredientsDataType Structure
 
   --------------------------- ------------------------------ -------------------------------------
   **Name**                    **Type**                       **Description**
@@ -4499,8 +4491,7 @@ specific.
                                            StateChangeInProcess flag
 
   Server         PackML Status Interlock   The Server includes support for at least
-                                           one MaterialInterlock and the summary
-                                           MaterialInterlocked flag.
+                                           one MaterialInterlock.
 
   Server         PackML Status             The Server supports exposing of the
                  RemoteParameter           configured RemoteParameter
@@ -4648,8 +4639,7 @@ specific.
                                            StateChangeInProcess flag              
 
   Client         PackML-Status Interlock   The Client makes use of at least one   
-                 Client                    MaterialInterlock and the summary      
-                                           MaterialInterlocked flag.              
+                 Client                    MaterialInterlock.      
 
   Client         PackML-Status             The Client makes use of exposing of    
                  RemoteParameter Client    the configured RemoteParameter         
@@ -6110,5 +6100,23 @@ These are not explicit listed in the chapter.
 
   **Solution**      Add PackMLEquipmentInterlockDataType and replace
                     booleans EquipmentBlocked and EquipmentStarved
+  ------------------------------------------------------------------
+
+------------------------------------------------------------------
+  **Topic**         Remove MaterialInterlocked 
+  ----------------- ------------------------------------------------
+  **Errata          1.01
+  Version**         
+
+  **Spec            7.4.1
+  Reference**       
+
+  **Mantis          
+  Reference**       
+
+  **Problem         Per TR88.00.02-2022, the PackML Status type 
+  Statement**       does not contain field MaterialInterlocked.
+
+  **Solution**      Remove all references to MaterialInterlocked
   ------------------------------------------------------------------
 
