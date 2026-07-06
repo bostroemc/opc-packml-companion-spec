@@ -1758,6 +1758,8 @@ Figure 12 - PackMLStatusObjectType Overview
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 | HasComponent  | Variable      | UnitModeChangeInProcess | Boolean                           | BaseDataVariableType | Optional          | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | StateCurrent            | Int32                             | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 | HasComponent  | Variable      | StateRequested          | Int32                             | BaseDataVariableType | Optional          | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 | HasComponent  | Variable      | StateChangeInProcess    | Boolean                           | BaseDataVariableType | Optional          | R             |
@@ -1774,11 +1776,27 @@ Figure 12 - PackMLStatusObjectType Overview
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 |               |               |                         |                                   |                      |                   |               |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
-| HasComponent  | Variable      | Parameter               | PackMLDescriptorDataType\[\]      | BaseDataVariableType | Optional          | R             |
+| HasComponent  | Variable      | Parameter_REAL          | PackMLParameterRealDataType\[\]   | BaseDataVariableType | Optional          | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
-| HasComponent  | Variable      | RemoteParameter         | PackMLRemoteInterfaceDataType\[\] | BaseDataVariableType | Optional          | R             |
+| HasComponent  | Variable      | Parameter_STRING        | PackMLParameterStringDataType\[\] | BaseDataVariableType | Optional          | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
-| HasComponent  | Variable      | Product                 | PackMLProductDataType\[\]         | BaseDataVariableType | Optional          | R             |
+| HasComponent  | Variable      | Parameter_LREAL         | PackMLParameterLrealDataType\[\]  | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | Parameter_DINT          | PackMLParameterDintDataType\[\]   | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+|               |               |                         |                                   |                      |                   |               |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | RecipeCurrent           | Int32                             | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | RecipeRequested         | Int32                             | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | RecipeChangeInProgress  | Boolean                           | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | Recipe                  | PackMLRecipeDataType\[\]          | BaseDataVariableType | Optional          | R             |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+|               |               |                         |                                   |                      |                   |               |
++---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
+| HasComponent  | Variable      | StackLight              | Int32\[\]                         | BaseDataVariableType | Optional          | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 
 In OPC UA defined *StateMachines*, a mandatory *Variable* *CurrentState*
@@ -1802,6 +1820,11 @@ the enumeration listed in *UnitSupportedModes*.
 
 *UnitModeChangeInProcess* -- a flag that indicates a unit change has
 been requested and is in progress
+
+*StateCurrent* - This value represents the current state of the PackML
+state machine.  This value is the same as field *CurrentState* provided
+by the *StateMachine* (see comment above) and is provided here for
+completeness.
 
 *StateRequested* - This value is used for state transition checking, to
 ensure that transitions to a target state can be achieved. The target
@@ -1828,21 +1851,41 @@ materials that are ready for processing. It is comprised of a series of
 Boolean with 1 equaling readyor not low, 0 equaling not ready or low.
 Each bit represents a different user material.
 
-*Parameter* -- Current parameters used in the production job. This
-reflects the last parameter sent via the *SetParameter* *Method*.
+*Parameter_REAL* -- Current float-valued parameters used in the production job. 
+This reflects the last parameter sent via the *SetParameter_REAL* *Method*.
 
-*RemoteParameter* -- the last remote parameter that were sent to the
-machine. This is optional variable is provided only if sending remote
-parameters are supported, the *RemoteCommand* *Method* is provided this
-variable shall also be provided. For additional details see the
-*RemoteCommand* *Method* definition in [6.7.15](#remotecommand-method).
+*Parameter_STRING* -- Current string-valued parameters used in the production 
+job. This reflects the last parameter sent via the *SetParameter_STRING* *Method*.
 
-*Product* -- provides a list of the products supported by this machine.
-The array is typically needed for machines that run multiple products.
-It defines the IDs of the products and process & process variables
-associated with the product. The product data can come from either a
-local HMI or remote systems and are used to process the product on the
-unit machine.
+*Parameter_LREAL* -- Current double-value parameters used in the production job. This
+reflects the last parameter sent via the *SetParameter_LREAL* *Method*.
+
+*Parameter_DINT* -- Current int32-value parameters used in the production job. This
+reflects the last parameter sent via the *SetParameter_DINT* *Method*.
+
+*RecipeCurrent* -- This tag is used to confirm which recipe is currently being 
+produced as the primary output product. It is designed to correspond directly 
+to the listing in the Recipe Array. A user-defined changeover process can be
+created using the RecipeRequested and RecipeChangeInProcess tags.
+
+*RecipeRequested* -- This tag is used to reflect the value of Command.SelectedRecipe 
+as part of a changeover process to a new recipe to be produced as the primary output 
+product. It is designed to correspond directly to the listing in the Recipe Array. 
+
+*RecipeChangeInProgress* --This tag is used to confirm that a change to a new recipe 
+to be produced as the primary output product is in process.   
+
+*Recipe* -- provides a list of the recipes supported by this machine. The array is 
+typically needed for machines that run multiple products. It defines the recipe 
+identification numbers (IDs), together with machine and process variables associated 
+with each recipe. The recipe data can come from either a local HMI or remote systems 
+and are used to process the recipe on the unit machine.
+
+*StackLight* -- This tag can be used simultaneously for reporting stacklight conditions and as control bits for 
+physical outputs. The status of a light in the stack is associated to a particular bit location within 
+the register and the user has the ability to define more than one stacklight. Certain bits are 
+reserved as follows in accordance with IEC 60073 and the companion OMAC guideline for HMI 
+and stacklight design. 
 
 ### PackMLAdminObjectType
 
