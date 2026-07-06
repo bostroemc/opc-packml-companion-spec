@@ -1766,9 +1766,7 @@ Figure 12 - PackMLStatusObjectType Overview
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 | HasComponent  | Variable      | CurMachSpeed            | Float                             | AnalogItemType       | Mandatory         | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
-| HasComponent  | Variable      | EquipmentBlocked        | Boolean                           | BaseDataVariableType | Mandatory         | R             |
-+---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
-| HasComponent  | Variable      | EquipmentStarved        | Boolean                           | BaseDataVariableType | Mandatory         | R             |
+| HasComponent  | Variable      | EquipmentInterlock      | PackMLEquipmentInterlockDataType  | BaseDataVariableType | Mandatory         | R             |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
 |               |               |                         |                                   |                      |                   |               |
 +---------------+---------------+-------------------------+-----------------------------------+----------------------+-------------------+---------------+
@@ -1820,11 +1818,11 @@ current state.
 
 *CurMachSpeed* - Current speed of the unit.
 
-*Equipment*Blocked - If TRUE, then processing is suspended because
+*EquipmentInterlock.Blocked* - If TRUE, then processing is suspended because
 downstream equipment is unable to receive material (e.g. downstream
 buffer is full)
 
-*Equipment*Starved - If TRUE, then processing is suspended because
+*EquipmentInterlock.Starved* - If TRUE, then processing is suspended because
 upstream equipment is unable to send material.
 
 *MaterialInterlocked* -- a flag that indicates this machine is
@@ -2785,6 +2783,30 @@ needs to be tracked. It is formally defined in [Table
                                         counter gives the user a
                                         non-resetting counter that may be
                                         used for OEE calculations
+  --------------------- --------------- -------------------------------------
+
+### PackMLEquipmentInterlockDataType
+
+The *PackMLEquipmentInterlockDataType* provides the PackML EQUIPMENT_INTERLOCK 
+structure, which describes the external conditions upstream and downstream of 
+the machine. The PackMLEquipmentInterlockDataType is formally defined in 
+Table X(add link). 
+
+Table X -- PackMLEquipmentInterlockDataType Structure
+
+  --------------------- --------------- -------------------------------------
+  **Name**              **Type**        **Description**
+
+  PackMLEquipmentInterlockDataType   Structure       
+
+  Blocked               Boolean         TRUE indicates that the machine has 
+                                        detected a downstream blocked 
+                                        condition.
+
+  Starved               Boolean         TRUE indicates that the machine has
+                                        detected an upstream starved 
+                                        condtion.
+
   --------------------- --------------- -------------------------------------
 
 ### PackMLDescriptorDataType
@@ -4518,11 +4540,11 @@ specific.
   Server         PackML Machine Speed      The Server supports the CurMachSpeed
                                            information including units
 
-  Server         PackML Equipment Blocked  The Server supports the EquipmentBlocked
-                                           flag
+  Server         PackML Equipment Blocked  The Server supports flag
+                                           EquipmentInterlock.Blocked
 
-  Server         PackML Equipment Starved  The Server supports the EquipmentStarved
-                                           flag
+  Server         PackML Equipment Starved  The Server supports flag 
+                                           EquipmentInterlock.Starved
 
   Server         PackML ProdDefectiveCount The Server supports ProdDefectiveCount
 
@@ -4674,11 +4696,11 @@ specific.
                  Client                    CurMachSpeed information including     
                                            units                                  
 
-  Client         PackML Equipment Blocked  The Client makes use of the            
-                 Client                    EquipmentBlocked flag                  
+  Client         PackML Equipment Blocked  The Client makes use of flag            
+                 Client                    EquipmentInterlock.Blocked           
 
-  Client         PackML Equipment Starved  The Client makes use of the            
-                 Client                    EquipmentStarved flag                  
+  Client         PackML Equipment Starved  The Client makes use of flag            
+                 Client                    EquipmentInterlock.Starved           
 
   Client         PackML ProdDefectiveCount The Client makes use of                
                  Client                    ProdDefectiveCount                     
@@ -6069,5 +6091,24 @@ These are not explicit listed in the chapter.
   Statement**       
 
   **Solution**      Change naming from "Complete" to "Completed"
+  ------------------------------------------------------------------
+
+------------------------------------------------------------------
+  **Topic**         Add EquipmentInterlock type
+  ----------------- ------------------------------------------------
+  **Errata          1.01
+  Version**         
+
+  **Spec            7.4.1
+  Reference**       
+
+  **Mantis          
+  Reference**       
+
+  **Problem         Per TR88.00.02-2022, Blocked and Starved flags
+  Statement**       are components of a single complex type
+
+  **Solution**      Add PackMLEquipmentInterlockDataType and replace
+                    booleans EquipmentBlocked and EquipmentStarved
   ------------------------------------------------------------------
 
