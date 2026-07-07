@@ -1429,7 +1429,7 @@ possible by eliminating naming and id conflicts between information from
 different sources. Namespaces in OPC UA have a globally unique string
 called a *NamespaceUri* and a locally unique integer called a
 *NamespaceIndex*. The *NamespaceIndex* is only unique within the context
-of a *Session* between an OPC UA *Client* and an OPC UA *Server*. All of?
+of a *Session* between an OPC UA *Client* and an OPC UA *Server*. All of
 the web services defined for OPC UA use the *NamespaceIndex* to specify
 the *Namespace* for qualified values.
 
